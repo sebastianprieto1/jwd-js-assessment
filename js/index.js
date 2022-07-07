@@ -25,9 +25,9 @@ window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#quizBlock').style.display = 'block';
     start.style.display = 'none';
   });
-  // quizArray QUESTIONS & ANSWERS
-  // q = QUESTION, o = OPTIONS, a = CORRECT ANSWER
-  // Basic ideas from https://code-boxx.com/simple-javascript-quiz/
+  
+
+
   const quizArray = [
     {
       q: 'Which is the third planet from the sun?',
@@ -43,6 +43,16 @@ window.addEventListener('DOMContentLoaded', () => {
       q: 'What is the capital of Australia',
       o: ['Sydney', 'Canberra', 'Melbourne', 'Perth'],
       a: 1,
+    },
+    {
+      q: 'What is the biggest country in the world?',
+      o: ['USA', 'Brazil', 'Russia', 'China'],
+      a: 2,
+    },
+    {
+      q: 'Which country has the largest population in the world? ',
+      o: ['Russia', 'India', 'USA', 'China'],
+      a: 3,
     },
   ];
 
@@ -76,15 +86,54 @@ window.addEventListener('DOMContentLoaded', () => {
 
         if (quizItem.a == i) {
           //change background color of li element here
+
+          liElement.style.backgroundColor = 'green';
         }
 
         if (radioElement.checked) {
           // code for task 1 goes here
+
+          if (quizItem.a == i) {
+            score++;
+          }
         }
       }
     });
-  };
+ 
+  //Display the score
+  const displayScore = document.querySelector('#score');
+  displayScore.innerHTML = `Your score is: ${score} out of ${quizArray.length}`;
 
-  // call the displayQuiz function
-  displayQuiz();
+  submitButton.style.display= 'none';
+  };
+  
+// Submit button shows score
+const submitButton = document.getElementById("btnSubmit");
+submitButton.addEventListener("click", () => {
+  calculateScore();
+});
+
+ // Reset button reloads page
+ const resetButton = document.getElementById("btnReset");
+ resetButton.addEventListener("click", () => {
+   location.reload();
+ });
+  
+
+//add countdown timer to the quizz that ends the quiz when the time is up
+const quizTime = document.getElementById('time');
+let time = 30;
+let timer = setInterval(function () {
+  time--;
+  quizTime.innerHTML = time;
+  if (time <= 0) {
+    clearInterval(timer);
+    calculateScore();
+  }
+}
+, 1000);
+
+
+
+displayQuiz();
 });
